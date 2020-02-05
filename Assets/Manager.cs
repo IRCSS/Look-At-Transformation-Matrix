@@ -7,7 +7,7 @@ public class Manager : MonoBehaviour {
 
 
     public Transform LookAt;
-
+    public Transform FowardArrow, RightArrow, UpArrow, meshForward;
     void OnEnable()
     {
         Camera.onPreRender += UpdateMVP;
@@ -21,41 +21,38 @@ public class Manager : MonoBehaviour {
     // Update is called once per frame
     void UpdateMVP(Camera cam)
     {
-
         Vector3 lookAtVector = (LookAt.transform.position - this.transform.position).normalized;
-        float   angle        = 1f * Mathf.Deg2Rad * Vector3.Angle(lookAtVector, this.transform.forward);
-        Vector3 coordRight   = this.transform.forward;
-        if (Vector3.Dot(coordRight, lookAtVector) == 1) coordRight = this.transform.right;
-        Vector3.OrthoNormalize(ref lookAtVector, ref coordRight);
-        // Vector3 coordUp      = Vector3.Cross(lookAtVector, coordRight).normalized;+
-        Vector3 coordUp = this.transform.up;
-        Vector3.OrthoNormalize(ref lookAtVector, ref coordUp);
-        Vector3.OrthoNormalize(ref coordRight, ref coordUp);
+        Vector3 coordRight   = Vector3.Cross(Vector3.up, lookAtVector).normalized;
+        Vector3 coordUp      = Vector3.Cross(lookAtVector, coordRight).normalized;
+        Vector3 scale        = this.transform.localScale;
+ 
+
+        FowardArrow.transform.position = this.transform.position;
+        RightArrow.position            = this.transform.position;
+        UpArrow.transform.position     = this.transform.position;
+        meshForward.transform.position = this.transform.position;
+
+        FowardArrow.forward = lookAtVector;
+        RightArrow.forward  = coordRight;
+        UpArrow.forward     = coordUp;
+        meshForward.forward = this.transform.forward;
 
 
-        Matrix4x4 wToRotation = new Matrix4x4( new Vector4(                 1.0f,                  0.0f,                  0.0f,   0.0f)* 1f,
-                                               new Vector4(                 0.0f,                  1.0f,                  0.0f,   0.0f)* 1f,
-                                               new Vector4(                 0.0f,                  0.0f,                  1.0f,   0.0f)* 1f, 
-                                               new Vector4(-transform.position.x, -transform.position.y, -transform.position.z,   1.0f)* 1f);
+        Matrix4x4 scaleMatrix = new Matrix4x4( new Vector4(scale.x,       0.0f,     0.0f,       0.0f),
+                                               new Vector4(   0.0f,    scale.y,     0.0f,       0.0f),
+                                               new Vector4(   0.0f,       0.0f,  scale.z,       0.0f), 
+                                               new Vector4(   0.0f,       0.0f,     0.0f,       1.0f)) ;
 
-                  wToRotation = new Matrix4x4( new Vector4(  coordRight.x,         coordRight.y,         coordRight.z,       0.0f)*-1f,
-                                               new Vector4(     coordUp.x,            coordUp.y,            coordUp.z,       0.0f)* 1f,
-                                               new Vector4(lookAtVector.x,       lookAtVector.y,       lookAtVector.z,       0.0f)* 1f, 
-                                               new Vector4(          0.0f,                 0.0f,                 0.0f,       1.0f)) * wToRotation;
+
+        Matrix4x4 modelMatrix = new Matrix4x4( new Vector4(        coordRight.x,         coordRight.y,           coordRight.z,       0.0f),
+                                               new Vector4(           coordUp.x,            coordUp.y,              coordUp.z,       0.0f),
+                                               new Vector4(      lookAtVector.x,       lookAtVector.y,         lookAtVector.z,       0.0f), 
+                                               new Vector4(transform.position.x, transform.position.y,   transform.position.z,       1.0f)) * scaleMatrix;
         
-
-        Matrix4x4 lookatRotation = new Matrix4x4( new Vector4( Mathf.Cos(angle),       0.0f,   Mathf.Sin(angle),   0.0f),
-                                                  new Vector4(             0.0f,       1.0f,               0.0f,   0.0f),
-                                                  new Vector4(-Mathf.Sin(angle),       0.0f,   Mathf.Cos(angle),   0.0f), 
-                                                  new Vector4(             0.0f,       0.0f,               0.0f,   1.0f)).transpose;
-
         // MVP matrix aka UnityObjectToClip matrix. 
         Matrix4x4 objectToClip = GL.GetGPUProjectionMatrix(cam.projectionMatrix, true)
             * cam.worldToCameraMatrix
-            * wToRotation.inverse
-            * lookatRotation
-            * wToRotation
-            * transform.GetComponent<Renderer>().localToWorldMatrix;
+            * modelMatrix;
         
         Shader.SetGlobalMatrix("_oToC", objectToClip);
 	}
