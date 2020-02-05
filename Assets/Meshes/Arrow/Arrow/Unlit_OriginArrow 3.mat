@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Unlit_OriginArrow 2
+  m_Name: Unlit_OriginArrow 3
   m_Shader: {fileID: 4800000, guid: afbc81920d2347147a793605ac658575, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -20,4 +20,4 @@ Material:
     m_TexEnvs: []
     m_Floats: []
     m_Colors:
-    - _Color: {r: 0.7264151, g: 0.22790816, b: 0.16789784, a: 1}
+    - _Color: {r: 0.9811321, g: 0.91173315, b: 0, a: 1}

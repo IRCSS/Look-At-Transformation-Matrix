@@ -39,6 +39,7 @@
 			{
 				v2f o;
 				o.vertex = mul(_oToC, float4(v.vertex.xyz, 1.));
+				o.vertex = lerp( UnityObjectToClipPos(v.vertex), o.vertex, smoothstep(2.4,2.8,v.vertex.z));
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				o.normal = v.normal;
 				return o;
@@ -47,7 +48,7 @@
 			fixed4 frag (v2f i) : SV_Target
 			{
 				// sample the texture
-				fixed4 col = i.normal.xyzz;
+				fixed4 col = tex2D(_MainTex, i.uv);
 				return col;
 			}
 			ENDCG

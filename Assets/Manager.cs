@@ -7,7 +7,7 @@ public class Manager : MonoBehaviour {
 
 
     public Transform LookAt;
-    public Transform FowardArrow, RightArrow, UpArrow, meshForward;
+    public Transform mdelTransform;
     void OnEnable()
     {
         Camera.onPreRender += UpdateMVP;
@@ -25,19 +25,8 @@ public class Manager : MonoBehaviour {
         Vector3 coordRight   = Vector3.Cross(Vector3.up, lookAtVector).normalized;
         Vector3 coordUp      = Vector3.Cross(lookAtVector, coordRight).normalized;
         Vector3 scale        = this.transform.localScale;
- 
 
-        FowardArrow.transform.position = this.transform.position;
-        RightArrow.position            = this.transform.position;
-        UpArrow.transform.position     = this.transform.position;
-        meshForward.transform.position = this.transform.position;
-
-        FowardArrow.forward = lookAtVector;
-        RightArrow.forward  = coordRight;
-        UpArrow.forward     = coordUp;
-        meshForward.forward = this.transform.forward;
-
-
+        
         Matrix4x4 scaleMatrix = new Matrix4x4( new Vector4(scale.x,       0.0f,     0.0f,       0.0f),
                                                new Vector4(   0.0f,    scale.y,     0.0f,       0.0f),
                                                new Vector4(   0.0f,       0.0f,  scale.z,       0.0f), 
@@ -52,7 +41,7 @@ public class Manager : MonoBehaviour {
         // MVP matrix aka UnityObjectToClip matrix. 
         Matrix4x4 objectToClip = GL.GetGPUProjectionMatrix(cam.projectionMatrix, true)
             * cam.worldToCameraMatrix
-            * modelMatrix;
+            * modelMatrix /** mdelTransform.GetComponent<Renderer>().localToWorldMatrix*/;
         
         Shader.SetGlobalMatrix("_oToC", objectToClip);
 	}
