@@ -22,10 +22,10 @@ public class Manager : MonoBehaviour {
     // Update is called once per frame
     void UpdateMVP(Camera cam)
     {
-        Vector3 lookAtVector = modelFoward.worldToLocalMatrix*(LookAt.transform.position - this.transform.position).normalized ;
+        Vector3 lookAtVector = modelFoward.worldToLocalMatrix*(LookAt.transform.position - modelFoward.transform.position).normalized ;
         Vector3 coordRight   = Vector3.Cross(Vector3.up, lookAtVector).normalized;
         Vector3 coordUp      = Vector3.Cross(lookAtVector, coordRight).normalized;
-        Vector3 scale        = this.transform.localScale;
+        Vector3 scale        = modelFoward.transform.localScale;
 
         
         Matrix4x4 scaleMatrix = new Matrix4x4( new Vector4(scale.x,       0.0f,     0.0f,       0.0f),
