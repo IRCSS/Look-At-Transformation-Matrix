@@ -39,7 +39,10 @@
 			{
 				v2f o;
 				o.vertex = mul(_oToC, float4(v.vertex.xyz, 1.));
-				o.vertex = lerp( UnityObjectToClipPos(v.vertex), o.vertex, smoothstep(2.4,2.8,v.vertex.z));
+				float transition = smoothstep(2.4, 2.8, v.vertex.z);
+				transition = 1.;
+				o.vertex = lerp( UnityObjectToClipPos(v.vertex), o.vertex, transition);
+
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				o.normal = v.normal;
 				return o;
