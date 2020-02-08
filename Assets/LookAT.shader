@@ -12,7 +12,7 @@
 		Pass
 		{
 			CGPROGRAM
-			#pragma vertex vert
+			#pragma vertex   vert
 			#pragma fragment frag
 			
 			#include "UnityCG.cginc"
@@ -20,30 +20,31 @@
 			struct appdata
 			{
 				float4 vertex : POSITION;
-				float2 uv : TEXCOORD0;
-				float3 normal: NORMAL;
+				float2 uv     : TEXCOORD0;
+				float3 normal : NORMAL;
 			};
 
 			struct v2f
 			{
-				float2 uv : TEXCOORD0;
+				float2 uv     : TEXCOORD0;
 				float4 vertex : SV_POSITION;
 				float3 normal : TEXCOORD1;
 			};
 
 			sampler2D _MainTex;
-			float4 _MainTex_ST;
-			float4x4 _oToC;
+			float4    _MainTex_ST;
+			float4x4  _oToC;
+			float     _debugOrignalPosition;
 
 			v2f vert (appdata v)
 			{
 				v2f o;
-				o.vertex = mul(_oToC, float4(v.vertex.xyz, 1.));
-				float transition = smoothstep(2.46, 2.5, v.vertex.z);
-				o.vertex = lerp( UnityObjectToClipPos(v.vertex), o.vertex, transition);
+				      o.vertex   = mul(_oToC, float4(v.vertex.xyz, 1.));
+				float transition = smoothstep(-.2, 1., v.vertex.z);
+				      o.vertex   = lerp( UnityObjectToClipPos(v.vertex), o.vertex,  transition * _debugOrignalPosition);
 
-				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-				o.normal = v.normal;
+				      o.uv       = TRANSFORM_TEX(v.uv, _MainTex);
+				      o.normal   = v.normal;
 				return o;
 			}
 			

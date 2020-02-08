@@ -7,14 +7,14 @@
 	SubShader
 	{
 		Tags {"Queue" = "Transparent" "RenderType"="Opaque" }
-		LOD 100
+		LOD   100
 		ZTest Always
 		
 
 		Pass
 		{
 			CGPROGRAM
-			#pragma vertex vert
+			#pragma vertex   vert
 			#pragma fragment frag
 			
 			#include "UnityCG.cginc"
@@ -33,7 +33,7 @@
 			v2f vert (appdata v)
 			{
 				v2f o;
-				o.vertex = UnityObjectToClipPos(v.vertex);
+				    o.vertex = UnityObjectToClipPos(v.vertex);
 				return o;
 			}
 			float4 _Color;

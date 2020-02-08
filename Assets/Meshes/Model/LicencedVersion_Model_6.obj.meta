@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6bf77f304f8f0e249a19b3dbae7f27b9
+guid: 93ce404fe978da7409e8cec18cc8a28b
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -7,9 +7,7 @@ ModelImporter:
     100002: //RootNode
     400000: default
     400002: //RootNode
-    2100000: nimascondTest_Model_5_u1_v1
-    2100002: nimascondTest_Model_5_u2_v1
-    2100004: nimascondTest_Model_5_u1_v2
+    2100000: defaultMat
     2300000: default
     3300000: default
     4300000: default
@@ -18,18 +16,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: nimascondTest_Model_5_u1_v1
-    second: {fileID: 2100000, guid: 3608af9df25be2943a16fffc48ecd8d0, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: nimascondTest_Model_5_u1_v2
-    second: {fileID: 2100000, guid: 5e95e00d169a9284cbabc1ad64a5196a, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: nimascondTest_Model_5_u2_v1
-    second: {fileID: 2100000, guid: a4b88e786c64d6d429ac3500092b05dc, type: 2}
+      name: defaultMat
+    second: {fileID: 2100000, guid: 154d2e8519e503b4794ea33f2a9abc00, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
